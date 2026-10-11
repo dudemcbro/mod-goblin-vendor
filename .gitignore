@@ -1,0 +1,9 @@
+*.swp
+*.swo
+*.log
+*.bak
+build/
+__pycache__/
+
+# Client patch built by scripts/build_flare_client_mpq.py (Blizzard Spell.dbc data, ~49 MB).
+client/
