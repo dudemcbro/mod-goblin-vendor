@@ -1,4 +1,6 @@
 -- mod-goblin-vendor rollback world SQL
+-- Apply to: acore_world
+-- Manual only: worldserver does not import data/sql/rollback/. See README.
 
 SET @GV_VENDOR_ENTRY := 900200;
 SET @GV_VENDOR_ENTRY_NEW := 55050;
@@ -32,3 +34,7 @@ WHERE `entry` = @GV_ITEM_ENTRY_NEW;
 
 DELETE FROM `playercreateinfo_item`
 WHERE `race` = 0 AND `class` = 0 AND `itemid` = @GV_ITEM_ENTRY_NEW;
+
+-- Forget the automatic install, so worldserver applies it again if the module
+-- is added back later
+DELETE FROM `updates` WHERE `name` = 'mod_goblin_vendor.sql';

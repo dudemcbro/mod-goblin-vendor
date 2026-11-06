@@ -1,4 +1,5 @@
 -- mod-goblin-vendor base world SQL
+-- Applied automatically by the worldserver updater from data/sql/world/.
 -- Summon item: Goblin Salvage Contract
 -- Vendor NPC: Goblin Salvage Broker (temporary summon only)
 
