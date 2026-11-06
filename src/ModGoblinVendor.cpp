@@ -264,7 +264,6 @@ public:
             return true;
         }
 
-
         AddGossipItemFor(player, GOSSIP_ICON_CHAT, BuildBrokerLine(player), GOSSIP_SENDER_MAIN, ACTION_REFRESH_LINE);
         AddGossipItemFor(player, GOSSIP_ICON_VENDOR, VENDOR_GOSSIP_TEXT, GOSSIP_SENDER_MAIN, ACTION_OPEN_VENDOR);
         SendGossipMenuFor(player, DEFAULT_GOSSIP_MESSAGE, creature->GetGUID());
