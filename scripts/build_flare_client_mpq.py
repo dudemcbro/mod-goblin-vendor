@@ -193,10 +193,12 @@ def build_mpq(mpq_path: Path, dbc_path: Path) -> None:
 
 def main() -> int:
     p = argparse.ArgumentParser()
-    p.add_argument("--dbc-in", default="/data/azerothcore/env/dist/bin/dbc/Spell.dbc")
-    p.add_argument("--dbc-out", default="/data/modules/mod-goblin-vendor/client/DBFilesClient/Spell.dbc")
-    p.add_argument("--mpq-out", default="/data/modules/mod-goblin-vendor/client/patch-X.MPQ")
-    p.add_argument("--mysql", default="mysql -h127.0.0.1 -P3306 -uacore -p'REDACTED' -D acore_world -N -B")
+    p.add_argument("--dbc-in", required=True, help="the server's Spell.dbc (<core>/env/dist/bin/dbc/Spell.dbc)")
+    p.add_argument("--dbc-out", default="client/DBFilesClient/Spell.dbc")
+    p.add_argument("--mpq-out", default="client/patch-X.MPQ")
+    # Credentials come from ~/.my.cnf or MYSQL_PWD, never from this file.
+    p.add_argument("--mysql", default="mysql -D acore_world -N -B",
+                   help="mysql command for the world database (default: %(default)s)")
     args = p.parse_args()
 
     dbc_in = Path(args.dbc_in)
