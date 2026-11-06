@@ -35,6 +35,11 @@ WHERE `entry` = @GV_ITEM_ENTRY_NEW;
 DELETE FROM `playercreateinfo_item`
 WHERE `race` = 0 AND `class` = 0 AND `itemid` = @GV_ITEM_ENTRY_NEW;
 
+-- Innkeepers stop selling the flare gun, back at its stock price (no stock
+-- vendor sells item 24278)
+DELETE FROM `npc_vendor` WHERE `item` = @GV_ITEM_ENTRY_NEW;
+UPDATE `item_template` SET `BuyPrice` = 0 WHERE `entry` = @GV_ITEM_ENTRY_NEW;
+
 -- Forget the automatic install, so worldserver applies it again if the module
 -- is added back later
 DELETE FROM `updates` WHERE `name` = 'mod_goblin_vendor.sql';
