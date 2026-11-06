@@ -42,7 +42,7 @@ SET
     `npcflag` = 4225,
     `speed_walk` = 1,
     `speed_run` = 1.14286,
-    `ScriptName` = 'npc_goblin_salvage_broker'
+    `ScriptName` = ''
 WHERE `entry` = 2684;
 
 INSERT INTO `creature_template`
