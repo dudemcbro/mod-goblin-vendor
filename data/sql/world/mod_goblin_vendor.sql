@@ -42,7 +42,6 @@ SET
     `npcflag` = 4225,
     `speed_walk` = 1,
     `speed_run` = 1.14286,
-    `scale` = 1,
     `ScriptName` = 'npc_goblin_salvage_broker'
 WHERE `entry` = 2684;
 
@@ -253,5 +252,8 @@ INSERT INTO `npc_vendor` (`entry`, `slot`, `item`, `maxcount`, `incrtime`, `Exte
 (32413, 0, @GV_ITEM_ENTRY, 0, 0, 0, 12340),
 (32418, 0, @GV_ITEM_ENTRY, 0, 0, 0, 12340),
 (33970, 0, @GV_ITEM_ENTRY, 0, 0, 0, 12340),
-(33971, 0, @GV_ITEM_ENTRY, 0, 0, 0, 12340),
-(991532, 0, @GV_ITEM_ENTRY, 0, 0, 0, 12340);
+(33971, 0, @GV_ITEM_ENTRY, 0, 0, 0, 12340);
+
+-- mod-worgen's Pyrewood innkeeper, only when that module is installed
+INSERT INTO `npc_vendor` (`entry`, `slot`, `item`, `maxcount`, `incrtime`, `ExtendedCost`, `VerifiedBuild`)
+SELECT `entry`, 0, @GV_ITEM_ENTRY, 0, 0, 0, 12340 FROM `creature_template` WHERE `entry` = 991532;
