@@ -1,40 +1,91 @@
-mod-goblin-vendor
-=================
+# mod-goblin-vendor
 
-Adds a portable item that summons a temporary mounted goblin vendor for personal salvage selling.
+An [AzerothCore](https://www.azerothcore.org/) (WotLK 3.3.5a) module that turns the
+Flare Gun (item 24278) into a Goblin Salvage Flare Gun, which summons a temporary
+mounted goblin vendor so you can sell loot anywhere.
 
-Features
---------
-- Item: `Goblin Salvage Flare Gun` (`item_template.entry = 24278`)
-- Summons: `Goblin Salvage Broker` (`creature_template.entry = 55050`)
-- Vendor duration: 5 minutes
-- Item cooldown: 5 minutes (server-enforced)
-- Optional combat restriction: item use is blocked while in combat
-- Uses a gossip gate before merchant opens, with randomized broker lines (hook + directive)
+## What it does
 
-Behavior
---------
-1. Use item `24278`.
-2. Script checks combat + cooldown.
-3. Script plays a firework flare cue (`spell 6668`), then summons temp vendor behind the player (`TEMPSUMMON_TIMED_DESPAWN`, 300000 ms) and moves the vendor in.
-4. Vendor is mounted on mechanical strider display (`10666`).
-5. Player clicks the vendor, gets a randomized flavor line, then chooses `Open salvage ledger.`
+- Using the flare gun fires a flare (spell 6668) and summons **GySgt Geargrind**
+  (creature 55050), mounted on a mechanical strider, behind you for 5 minutes.
+- Talking to him gives a random line, then *Open salvage ledger.* opens his shop. He
+  buys your items like any vendor and sells a stock of supplies.
+- 5 minute cooldown, enforced by the server. The flare gun cannot be used in combat.
+- Every new character starts with the flare gun, and every innkeeper sells it for
+  1 copper. With [mod-worgen](https://github.com/dudemcbro/mod-worgen) installed, its
+  Pyrewood innkeeper sells it too.
 
-Notes
------
-- Cooldown is implemented server-side via spell cooldown storage using spell ID `31333`.
-- Item cooldown fields are also set on `item_template` for client-side cooldown spinner display.
-- Because AzerothCore persists cooldowns by spell ID, this ID must exist in `spell_dbc`.
-- If you want to avoid sharing this cooldown spell with anything else on your realm, change `COOLDOWN_SPELL_ID` in `src/ModGoblinVendor.cpp` to a different valid spell ID.
+The cooldown is stored on spell 31333, which must exist in `spell_dbc`. To avoid sharing
+it with anything else on your realm, change `COOLDOWN_SPELL_ID` in
+`src/ModGoblinVendor.cpp` to another valid spell ID.
 
-Install (world DB)
-------------------
+## Requirements
+
+- AzerothCore WotLK (3.3.5a). The module only uses standard core APIs.
+- No configuration file and no core patches.
+
+## Installation
+
+1. Clone the module into the core's `modules` folder:
+
+   ```sh
+   cd <azerothcore>/modules
+   git clone https://github.com/dudemcbro/mod-goblin-vendor.git
+   ```
+
+2. Re-run CMake and rebuild the core, for example with `./acore.sh compiler build`.
+
+3. Restart `worldserver`. It imports `data/sql/world/mod_goblin_vendor.sql` on startup
+   (with the updater enabled, the default). The file can run again safely.
+
+### Upgrading from a manual install
+
+Earlier versions were installed with `mysql < sql/install.sql`. The same data is now
+imported automatically on the next start. The file deletes its rows before inserting
+them, so running it over a manual install just writes them again.
+
+## Client patch (optional)
+
+Without a client patch everything works, but the flare gun's tooltip and cooldown spinner
+show the stock Flare Gun text. `scripts/build_flare_client_mpq.py` patches spell 31333 in
+the server's `Spell.dbc` and packs it as `patch-X.MPQ` for players' `Data` folders:
+
+```sh
+python3 scripts/build_flare_client_mpq.py --dbc-in <azerothcore>/env/dist/bin/dbc/Spell.dbc
 ```
-mysql < modules/mod-goblin-vendor/sql/install.sql
+
+It reads the `spell_dbc` column layout from the world database through the `mysql`
+client, which takes its login from `~/.my.cnf` or `MYSQL_PWD`. Pass `--mysql` to use
+another command. Output goes to `client/` unless `--dbc-out` and `--mpq-out` say
+otherwise.
+
+## Updating
+
+```sh
+cd <azerothcore>/modules/mod-goblin-vendor
+git pull
 ```
 
-Rollback
---------
+Then re-run CMake, rebuild and restart `worldserver`.
+
+## Removing the module
+
+Run the rollback against the world database, then delete the module folder, re-run CMake
+and rebuild:
+
+```sh
+mysql acore_world < modules/mod-goblin-vendor/data/sql/rollback/world/mod_goblin_vendor_rollback.sql
 ```
-mysql < modules/mod-goblin-vendor/sql/rollback.sql
-```
+
+It removes the vendor, the starting item and the innkeeper listings, and turns item
+24278 back into the stock Flare Gun. Flare guns already in bags stay.
+
+## Contributing
+
+Bug reports and pull requests are welcome on
+[GitHub](https://github.com/dudemcbro/mod-goblin-vendor). For larger changes, please
+open an issue first, and describe how you tested your change.
+
+## License
+
+GNU Affero General Public License v3.0, see [LICENSE](LICENSE).
