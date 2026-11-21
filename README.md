@@ -1,40 +1,41 @@
 # mod-goblin-vendor
 
+<img src="icon.png" alt="" width="64" align="right">
+
 An [AzerothCore](https://www.azerothcore.org/) (WotLK 3.3.5a) module that turns the
 Flare Gun (item 24278) into a Goblin Salvage Flare Gun, which summons a temporary
 mounted goblin vendor so you can sell loot anywhere.
 
-## What it does
+- **Author:** [dudemcbro](https://github.com/dudemcbro)
+- **License:** [GNU AGPL v3.0](LICENSE)
+- **Works with:** AzerothCore WotLK (3.3.5a). The module only uses standard core APIs,
+  with no configuration file and no core patches.
 
-- Using the flare gun fires a flare (spell 6668) and summons **GySgt Geargrind**
-  (creature 55050), mounted on a mechanical strider, behind you for 5 minutes.
-- Talking to him gives a random line, then *Open salvage ledger.* opens his shop. He
-  buys your items like any vendor and sells a stock of supplies.
-- 5 minute cooldown, enforced by the server. The flare gun cannot be used in combat.
-- Every new character starts with the flare gun, and every innkeeper sells it for
-  1 copper. With [mod-worgen](https://github.com/dudemcbro/mod-worgen) installed, its
-  Pyrewood innkeeper sells it too.
+## Features
+
+- **A vendor on demand.** Using the flare gun fires a flare (spell 6668) and summons
+  **GySgt Geargrind** (creature 55050), mounted on a mechanical strider, behind you for
+  5 minutes.
+- **A full shop.** Talking to him gives a random line, then *Open salvage ledger.* opens
+  his shop. He buys your items like any vendor and sells a stock of supplies.
+- **Server-side cooldown.** 5 minute cooldown, enforced by the server. The flare gun
+  cannot be used in combat.
+- **Easy to get.** Every new character starts with the flare gun, and every innkeeper
+  sells it for 1 copper. With [mod-worgen](https://github.com/dudemcbro/mod-worgen)
+  installed, its Pyrewood innkeeper sells it too.
 
 The cooldown is stored on spell 31333, which must exist in `spell_dbc`. To avoid sharing
 it with anything else on your realm, change `COOLDOWN_SPELL_ID` in
 `src/ModGoblinVendor.cpp` to another valid spell ID.
 
-## Requirements
-
-- AzerothCore WotLK (3.3.5a). The module only uses standard core APIs.
-- No configuration file and no core patches.
-
-## Installation
+## Quick start
 
 1. Clone the module into the core's `modules` folder:
-
    ```sh
    cd <azerothcore>/modules
    git clone https://github.com/dudemcbro/mod-goblin-vendor.git
    ```
-
 2. Re-run CMake and rebuild the core, for example with `./acore.sh compiler build`.
-
 3. Restart `worldserver`. It imports `data/sql/world/mod_goblin_vendor.sql` on startup
    (with the updater enabled, the default). The file can run again safely.
 
@@ -88,4 +89,4 @@ open an issue first, and describe how you tested your change.
 
 ## License
 
-GNU Affero General Public License v3.0, see [LICENSE](LICENSE).
+Licensed under the GNU Affero General Public License v3.0. See [LICENSE](LICENSE).
