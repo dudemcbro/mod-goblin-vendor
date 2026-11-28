@@ -14,6 +14,8 @@ DELETE FROM `npc_vendor` WHERE `entry` = @GV_VENDOR_ENTRY;
 DELETE FROM `creature_template_addon` WHERE `entry` = @GV_VENDOR_ENTRY;
 DELETE FROM `creature_template_model` WHERE `CreatureID` = @GV_VENDOR_ENTRY;
 DELETE FROM `creature_template` WHERE `entry` = @GV_VENDOR_ENTRY;
+-- Entries older versions used. 900200 was one too, but it is mod-playerhousing's
+-- Krook now, so it is left alone: deleting it removes Krook from every capital.
 DELETE FROM `npc_vendor` WHERE `entry` = 70050;
 DELETE FROM `creature_template_addon` WHERE `entry` = 70050;
 DELETE FROM `creature_template_model` WHERE `CreatureID` = 70050;
@@ -22,10 +24,6 @@ DELETE FROM `npc_vendor` WHERE `entry` = 9902200;
 DELETE FROM `creature_template_addon` WHERE `entry` = 9902200;
 DELETE FROM `creature_template_model` WHERE `CreatureID` = 9902200;
 DELETE FROM `creature_template` WHERE `entry` = 9902200;
-DELETE FROM `npc_vendor` WHERE `entry` = 900200;
-DELETE FROM `creature_template_addon` WHERE `entry` = 900200;
-DELETE FROM `creature_template_model` WHERE `CreatureID` = 900200;
-DELETE FROM `creature_template` WHERE `entry` = 900200;
 
 DROP TEMPORARY TABLE IF EXISTS `tmp_gv_creature_template`;
 CREATE TEMPORARY TABLE `tmp_gv_creature_template`

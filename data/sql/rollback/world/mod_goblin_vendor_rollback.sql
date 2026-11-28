@@ -2,14 +2,10 @@
 -- Apply to: acore_world
 -- Manual only: worldserver does not import data/sql/rollback/. See README.
 
-SET @GV_VENDOR_ENTRY := 900200;
 SET @GV_VENDOR_ENTRY_NEW := 55050;
 SET @GV_ITEM_ENTRY_NEW   := 24278;
 
-DELETE FROM `npc_vendor` WHERE `entry` = @GV_VENDOR_ENTRY;
-DELETE FROM `creature_template_addon` WHERE `entry` = @GV_VENDOR_ENTRY;
-DELETE FROM `creature_template_model` WHERE `CreatureID` = @GV_VENDOR_ENTRY;
-DELETE FROM `creature_template` WHERE `entry` = @GV_VENDOR_ENTRY;
+-- Entries older versions used. 900200 is left alone: it is mod-playerhousing's Krook now.
 DELETE FROM `npc_vendor` WHERE `entry` = 70050;
 DELETE FROM `creature_template_addon` WHERE `entry` = 70050;
 DELETE FROM `creature_template_model` WHERE `CreatureID` = 70050;
